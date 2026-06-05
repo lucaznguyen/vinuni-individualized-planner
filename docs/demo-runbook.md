@@ -17,6 +17,14 @@
 6. Point to Academic Load Score and read the four transparent categories.
 7. Point to Action Card and say that every heavy week leads to a next step.
 
+## Guided week tour
+
+1. Open Dashboard.
+2. Click Start tour in Guided week tour.
+3. Let the tour move through Week 1, Week 2, Week 3, and Week 5.
+4. Point out that the heatmap, Academic Load Score, Action Card, and Deadline Bank follow the selected week automatically.
+5. Pause on Week 3 and say: "This is where hidden workload becomes visible before the week starts."
+
 ## Case 2 - Add Task live demo
 
 1. Click Demo Cases.
