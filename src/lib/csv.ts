@@ -66,6 +66,8 @@ export function parseTasksCsv(csv: string): { tasks: Task[]; error?: string } {
       return { tasks: [], error: `Row ${rowIndex + 1} has an invalid weight.` };
     }
 
+    const parsedWeight = validWeights.includes(weight) ? weight : Number(record.weight);
+
     tasks.push({
       id: record.id || crypto.randomUUID(),
       course: record.course,
@@ -74,7 +76,7 @@ export function parseTasksCsv(csv: string): { tasks: Task[]; error?: string } {
       taskType,
       effort,
       clarity,
-      weight: record.weight ? weight || Number(record.weight) : "",
+      weight: record.weight ? parsedWeight : "",
       completed: record.completed.toLowerCase() === "true"
     });
   }

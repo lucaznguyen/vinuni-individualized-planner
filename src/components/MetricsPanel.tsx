@@ -56,12 +56,11 @@ export default function MetricsPanel() {
             <h2 className="text-lg font-semibold text-vip-ink">Pilot timeline</h2>
           </div>
           <div className="mt-5 space-y-4">
-            {timeline.map(([period, body], index) => (
+            {timeline.map(([period, body]) => (
               <div key={period} className="grid grid-cols-[88px_1fr] gap-3">
                 <div className="text-sm font-semibold text-vip-blue">{period}</div>
                 <div className="border-l border-vip-line pb-4 pl-4">
                   <p className="text-sm leading-6 text-vip-muted">{body}</p>
-                  {index < timeline.length - 1 && <div className="mt-3 h-2 w-2 rounded-full bg-vip-blue" />}
                 </div>
               </div>
             ))}

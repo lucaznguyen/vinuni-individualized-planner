@@ -1,11 +1,12 @@
-import { ArrowRight, ShieldCheck, TableProperties } from "lucide-react";
+import { ShieldCheck, TableProperties } from "lucide-react";
+
+const dashboardFigure = `${import.meta.env.BASE_URL}assets/figure_dashboard.png`;
 
 interface HeroProps {
   onOpenDashboard: () => void;
-  onOpenDeck: () => void;
 }
 
-export default function Hero({ onOpenDashboard, onOpenDeck }: HeroProps) {
+export default function Hero({ onOpenDashboard }: HeroProps) {
   return (
     <div className="space-y-8">
       <section className="grid gap-8 lg:grid-cols-[1fr_0.92fr] lg:items-center">
@@ -31,16 +32,12 @@ export default function Hero({ onOpenDashboard, onOpenDeck }: HeroProps) {
               <TableProperties size={18} aria-hidden="true" />
               Open prototype
             </button>
-            <button type="button" className="btn-secondary" onClick={onOpenDeck}>
-              Pitch deck
-              <ArrowRight size={18} aria-hidden="true" />
-            </button>
           </div>
         </div>
 
         <div className="overflow-hidden rounded-lg border border-vip-line bg-vip-panel shadow-sheet">
           <img
-            src="/assets/figure_dashboard.png"
+            src={dashboardFigure}
             alt="VIP dashboard mockup from the proposal"
             className="h-full w-full object-cover"
           />

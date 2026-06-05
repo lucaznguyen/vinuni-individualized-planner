@@ -4,9 +4,8 @@
 
 1. Run `npm run dev`.
 2. Open the local URL shown in the terminal.
-3. Open the Pitch Deck tab.
-4. Keep this runbook open in a separate window.
-5. If the dashboard contains old data, open Dashboard and click Clear local data.
+3. Keep this runbook open in a separate window.
+4. If the dashboard contains old data, open Dashboard and click Clear local data.
 
 ## Case 1 - Hidden workload becomes visible
 
@@ -22,11 +21,12 @@
 
 1. Click Demo Cases.
 2. Click Run demo on Case 2 - Add Task live demo.
-3. The app opens Dashboard automatically with a Project Milestone due in Week 3.
-4. Point to Week 3 in the heatmap and show that it is Red.
-5. Point to Deadline Clustering and Expected Effort in the score panel.
-6. Point to the Red Week Action Card.
-7. Say: "The value is not only the warning. The value is the next 24-48 hour plan."
+3. The app opens Dashboard automatically with the baseline workload and a Project Milestone prefilled in the Add task form.
+4. Click Add task.
+5. Point to Week 3 in the heatmap and show that it is Red.
+6. Point to Deadline Clustering and Expected Effort in the score panel.
+7. Point to the Red Week Action Card.
+8. Say: "The value is not only the warning. The value is the next 24-48 hour plan."
 
 ## Optional manual Add Task version
 
@@ -59,9 +59,8 @@ Use this if judges ask to see live input.
 
 ## Closing screen
 
-1. Open Pitch Deck.
-2. Move to Slide 10 with the right arrow key.
-3. End with the pilot ask:
+1. Open Pilot & Metrics.
+2. End with the pilot ask:
    - Permission to pilot
    - Connection with Peer Advisors, SAM, and support teams
    - Recruitment support for first-year volunteers

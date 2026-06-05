@@ -38,6 +38,7 @@ export interface DemoCase {
   scenario: string;
   flow: string[];
   tasks: Task[];
+  draftTask?: Task;
   selectedWeek: number;
 }
 

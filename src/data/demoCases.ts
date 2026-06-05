@@ -47,31 +47,17 @@ const caseOneTasks: Task[] = [
   }
 ];
 
-const caseTwoTasks: Task[] = [
-  ...caseOneTasks.slice(0, 3),
-  {
-    id: "case2-reading",
-    course: "Business/Economics",
-    task: "Reading Response",
-    dueDate: "2026-09-30",
-    taskType: "Small",
-    effort: "Low",
-    clarity: "Clear",
-    weight: "Low",
-    completed: false
-  },
-  {
-    id: "case2-milestone",
-    course: "Foundations Project",
-    task: "Project Milestone",
-    dueDate: "2026-09-24",
-    taskType: "Large",
-    effort: "High",
-    clarity: "Clear",
-    weight: "High",
-    completed: false
-  }
-];
+const caseTwoDraftTask: Task = {
+  id: "case2-milestone",
+  course: "Foundations Project",
+  task: "Project Milestone",
+  dueDate: "2026-09-24",
+  taskType: "Large",
+  effort: "High",
+  clarity: "Clear",
+  weight: "High",
+  completed: false
+};
 
 const caseThreeTasks: Task[] = [
   {
@@ -130,12 +116,13 @@ export const demoCases: DemoCase[] = [
     scenario:
       "Adding a new Project Milestone due in Week 3 pushes the week into Red and changes the action card immediately.",
     flow: [
-      "Click Run demo.",
-      "Open the Dashboard tab.",
-      "Show the new Project Milestone in the deadline bank.",
+      "Click Run demo to load the baseline and prefill the Project Milestone.",
+      "Click Add task in the dashboard form.",
+      "Show Week 3 turning Red immediately.",
       "Point to the Red Week score and Red Week action card."
     ],
-    tasks: caseTwoTasks,
+    tasks: caseOneTasks,
+    draftTask: caseTwoDraftTask,
     selectedWeek: 3
   },
   {

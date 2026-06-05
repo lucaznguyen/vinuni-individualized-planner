@@ -13,6 +13,8 @@ import type { Task } from "../types";
 interface DashboardProps {
   tasks: Task[];
   setTasks: Dispatch<SetStateAction<Task[]>>;
+  draftTask: Task | null;
+  onDraftConsumed: () => void;
   selectedWeek: number;
   setSelectedWeek: (week: number) => void;
   saveStamp: string;
@@ -26,6 +28,8 @@ type ViewMode = "dashboard" | "sheet";
 export default function Dashboard({
   tasks,
   setTasks,
+  draftTask,
+  onDraftConsumed,
   selectedWeek,
   setSelectedWeek,
   saveStamp,
@@ -47,6 +51,7 @@ export default function Dashboard({
       return exists ? current.map((item) => (item.id === task.id ? task : item)) : [...current, task];
     });
     setEditingTask(null);
+    if (draftTask?.id === task.id) onDraftConsumed();
   };
 
   const deleteTask = (id: string) => {
@@ -109,7 +114,12 @@ export default function Dashboard({
       </section>
 
       <section className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <TaskForm editingTask={editingTask} onCancel={() => setEditingTask(null)} onSubmit={upsertTask} />
+        <TaskForm
+          editingTask={editingTask}
+          draftTask={draftTask}
+          onCancel={() => setEditingTask(null)}
+          onSubmit={upsertTask}
+        />
         <div className="space-y-4">
           <WeeklyHeatmap scores={weekScores} selectedWeek={selectedWeek} onSelectWeek={setSelectedWeek} />
           <div className="grid gap-4 md:grid-cols-2">

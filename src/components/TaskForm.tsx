@@ -17,16 +17,17 @@ const emptyTask: Task = {
 
 interface TaskFormProps {
   editingTask: Task | null;
+  draftTask: Task | null;
   onSubmit: (task: Task) => void;
   onCancel: () => void;
 }
 
-export default function TaskForm({ editingTask, onSubmit, onCancel }: TaskFormProps) {
+export default function TaskForm({ editingTask, draftTask, onSubmit, onCancel }: TaskFormProps) {
   const [form, setForm] = useState<Task>(emptyTask);
 
   useEffect(() => {
-    setForm(editingTask ?? emptyTask);
-  }, [editingTask]);
+    setForm(editingTask ?? draftTask ?? emptyTask);
+  }, [editingTask, draftTask]);
 
   const update = <K extends keyof Task>(key: K, value: Task[K]) => {
     setForm((current) => ({ ...current, [key]: value }));

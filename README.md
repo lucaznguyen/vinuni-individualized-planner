@@ -66,7 +66,11 @@ You can also run this in the browser console:
 localStorage.removeItem("vip.tasks.v1");
 ```
 
-## Edit slides
+## Pitch deck status
+
+The in-app Pitch Deck tab is currently hidden because final slides will be prepared separately later. The draft deck code remains in `src/components/PitchDeck.tsx` and `src/data/slides.ts` for future reuse.
+
+## Edit draft slides
 
 Edit `src/data/slides.ts`. Each slide has:
 
@@ -109,6 +113,4 @@ VIP must remain student-owned and opt-in. It must not collect grades, GPA, couns
 3. Run `npm run dev`.
 4. Open Dashboard and click Clear local data.
 5. Practice Demo Cases 1, 2, and 3 using `docs/demo-runbook.md`.
-6. Open Pitch Deck and test Left/Right keyboard controls.
-7. Toggle Presenter Notes with `N`.
-8. Confirm the GitHub Pages base path has the real repo name.
+6. Confirm the GitHub Pages base path has the real repo name.

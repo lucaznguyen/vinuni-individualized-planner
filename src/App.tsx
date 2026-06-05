@@ -5,7 +5,6 @@ import Dashboard from "./components/Dashboard";
 import DemoCases from "./components/DemoCases";
 import SOSNavigator from "./components/SOSNavigator";
 import MetricsPanel from "./components/MetricsPanel";
-import PitchDeck from "./components/PitchDeck";
 import { demoCases } from "./data/demoCases";
 import { sampleTasks } from "./data/sampleTasks";
 import { clearStoredTasks, loadTasksFromStorage, saveTasksToStorage } from "./lib/storage";
@@ -13,13 +12,14 @@ import type { Task } from "./types";
 
 function getHashTab(): TabId {
   const hash = window.location.hash.replace("#", "") as TabId;
-  const validTabs: TabId[] = ["overview", "dashboard", "demo", "sos", "metrics", "deck"];
+  const validTabs: TabId[] = ["overview", "dashboard", "demo", "sos", "metrics"];
   return validTabs.includes(hash) ? hash : "overview";
 }
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>(() => getHashTab());
   const [tasks, setTasks] = useState<Task[]>(() => loadTasksFromStorage() ?? sampleTasks);
+  const [draftTask, setDraftTask] = useState<Task | null>(null);
   const [selectedWeek, setSelectedWeek] = useState(3);
   const [saveStamp, setSaveStamp] = useState("Saved locally");
 
@@ -46,18 +46,21 @@ export default function App() {
     const selectedCase = demoCases.find((demoCase) => demoCase.id === caseId);
     if (!selectedCase) return;
     setTasks(selectedCase.tasks);
+    setDraftTask(selectedCase.draftTask ?? null);
     setSelectedWeek(selectedCase.selectedWeek);
     setActiveTab("dashboard");
   };
 
   const resetDemoData = () => {
     setTasks(sampleTasks);
+    setDraftTask(null);
     setSelectedWeek(3);
   };
 
   const clearLocalData = () => {
     clearStoredTasks();
     setTasks(sampleTasks);
+    setDraftTask(null);
     setSelectedWeek(3);
     setSaveStamp("Local data cleared; demo data restored");
   };
@@ -68,6 +71,8 @@ export default function App() {
         <Dashboard
           tasks={tasks}
           setTasks={setTasks}
+          draftTask={draftTask}
+          onDraftConsumed={() => setDraftTask(null)}
           selectedWeek={selectedWeek}
           setSelectedWeek={setSelectedWeek}
           saveStamp={saveStamp}
@@ -90,12 +95,8 @@ export default function App() {
       return <MetricsPanel />;
     }
 
-    if (activeTab === "deck") {
-      return <PitchDeck />;
-    }
-
-    return <Hero onOpenDashboard={() => setActiveTab("dashboard")} onOpenDeck={() => setActiveTab("deck")} />;
-  }, [activeTab, tasks, selectedWeek, saveStamp]);
+    return <Hero onOpenDashboard={() => setActiveTab("dashboard")} />;
+  }, [activeTab, tasks, draftTask, selectedWeek, saveStamp]);
 
   return (
     <Layout activeTab={activeTab} onTabChange={setActiveTab}>

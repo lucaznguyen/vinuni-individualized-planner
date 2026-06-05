@@ -1,15 +1,14 @@
-import { BarChart3, HelpCircle, LayoutDashboard, LineChart, MonitorPlay, Presentation } from "lucide-react";
+import { BarChart3, HelpCircle, LayoutDashboard, LineChart, MonitorPlay } from "lucide-react";
 import type { ReactNode } from "react";
 
-export type TabId = "overview" | "dashboard" | "demo" | "sos" | "metrics" | "deck";
+export type TabId = "overview" | "dashboard" | "demo" | "sos" | "metrics";
 
 const tabs: { id: TabId; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "overview", label: "Overview", icon: BarChart3 },
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "demo", label: "Demo Cases", icon: MonitorPlay },
   { id: "sos", label: "SOS Navigator", icon: HelpCircle },
-  { id: "metrics", label: "Pilot & Metrics", icon: LineChart },
-  { id: "deck", label: "Pitch Deck", icon: Presentation }
+  { id: "metrics", label: "Pilot & Metrics", icon: LineChart }
 ];
 
 interface LayoutProps {

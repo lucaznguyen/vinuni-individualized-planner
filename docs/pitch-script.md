@@ -38,7 +38,7 @@ Next, I open the Academic Load Score. The score is broken down into the four rul
 
 Now I show the Action Card. VIP does not stop at warning the student. It gives a next-step plan: block study time, start the highest-effort task, check unclear tasks, and attend office hour or PASS if stuck.
 
-Next, I run Case 2. This simulates adding a new Project Milestone due in Week 3. The heatmap changes immediately. The Academic Load Score increases and Week 3 becomes Red. The Action Card changes to Red Week guidance: choose the highest-risk task, block two focused work sessions, ask one clarification question within 24 hours, and use the SOS Navigator if uncertainty continues.
+Next, I run Case 2. The dashboard opens with a Project Milestone prefilled in the Add task form. When I click Add task, the heatmap changes immediately. The Academic Load Score increases and Week 3 becomes Red. The Action Card changes to Red Week guidance: choose the highest-risk task, block two focused work sessions, ask one clarification question within 24 hours, and use the SOS Navigator if uncertainty continues.
 
 This is the core product experience: data becomes visibility, visibility becomes a decision, and the decision becomes action.
 
