@@ -139,6 +139,49 @@ export default function Dashboard({
     setSelectedWeek(guidedTourSteps[index].week);
   };
 
+  const taskEntry = (
+    <TaskForm
+      editingTask={editingTask}
+      draftTask={draftTask}
+      onCancel={() => setEditingTask(null)}
+      onSubmit={upsertTask}
+    />
+  );
+
+  const dataControls = (
+    <div className="vip-panel">
+      <h2 className="text-lg font-semibold text-vip-ink">CSV and local data</h2>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button type="button" className="btn-secondary" onClick={handleExport}>
+          <Download size={17} aria-hidden="true" />
+          Export CSV
+        </button>
+        <button type="button" className="btn-secondary" onClick={() => fileInputRef.current?.click()}>
+          <FileUp size={17} aria-hidden="true" />
+          Import CSV
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".csv,text/csv"
+          className="hidden"
+          onChange={(event) => handleImport(event.target.files?.[0])}
+        />
+      </div>
+      {importMessage && <p className="mt-3 text-sm leading-6 text-vip-muted">{importMessage}</p>}
+      <div className="mt-4 flex flex-wrap gap-2 border-t border-vip-line pt-4">
+        <button type="button" className="btn-secondary" onClick={onResetDemoData}>
+          <RotateCcw size={17} aria-hidden="true" />
+          Reset demo data
+        </button>
+        <button type="button" className="btn-danger" onClick={onClearLocalData}>
+          <Trash2 size={17} aria-hidden="true" />
+          Clear local data
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-6">
       <section className="flex flex-col gap-4 rounded-lg border border-vip-line bg-vip-panel p-4 md:flex-row md:items-center md:justify-between">
@@ -166,7 +209,10 @@ export default function Dashboard({
             <button
               type="button"
               className={`rounded-md px-3 py-2 text-sm font-medium ${viewMode === "sheet" ? "bg-vip-blue text-white" : "text-vip-muted"}`}
-              onClick={() => setViewMode("sheet")}
+              onClick={() => {
+                setTourPlaying(false);
+                setViewMode("sheet");
+              }}
             >
               Sheet Mode
             </button>
@@ -174,115 +220,99 @@ export default function Dashboard({
         </div>
       </section>
 
-      <section className="vip-panel">
-        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
-          <div>
-            <p className="text-sm font-semibold uppercase text-vip-blue">Live demo automation</p>
-            <h2 className="mt-1 text-xl font-semibold text-vip-ink">Guided week tour</h2>
-            <p className="mt-2 text-sm leading-6 text-vip-muted">{tourStep.body}</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" className="btn-primary" onClick={tourPlaying ? () => setTourPlaying(false) : startTour}>
-              {tourPlaying ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}
-              {tourPlaying ? "Pause" : "Start tour"}
-            </button>
-            <button type="button" className="btn-secondary" onClick={restartTour}>
-              <RotateCcw size={17} aria-hidden="true" />
-              Restart
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-4 grid gap-2 md:grid-cols-4">
-          {guidedTourSteps.map((step, index) => {
-            const score = weekScores[step.week - 1];
-            const active = index === tourStepIndex;
-            return (
-              <button
-                key={step.week}
-                type="button"
-                className={`rounded-lg border px-3 py-3 text-left transition ${
-                  active
-                    ? "border-vip-blue bg-vip-blue text-white"
-                    : "border-vip-line bg-white text-vip-muted hover:border-vip-blue hover:text-vip-blue"
-                }`}
-                onClick={() => selectTourStep(index)}
-              >
-                <span className="block text-sm font-semibold">{step.title}</span>
-                <span className={`mt-1 block text-xs ${active ? "text-white/85" : "text-vip-muted"}`}>
-                  Score {score.total} | {score.status}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-4 rounded-lg border border-vip-line bg-vip-panel p-3 text-sm leading-6 text-vip-muted">
-          <span className="font-semibold text-vip-ink">{tourStep.title}:</span> Score {tourScore.total},{" "}
-          {tourScore.activeTaskCount} active tasks, {tourScore.status} status.
-        </div>
-      </section>
-
-      <section className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <TaskForm
-          editingTask={editingTask}
-          draftTask={draftTask}
-          onCancel={() => setEditingTask(null)}
-          onSubmit={upsertTask}
-        />
-        <div className="space-y-4">
-          <WeeklyHeatmap scores={weekScores} selectedWeek={selectedWeek} onSelectWeek={setSelectedWeek} />
-          <div className="grid gap-4 md:grid-cols-2">
-            <LoadScoreCard score={selectedScore} />
-            <ActionCard score={selectedScore} onOpenSOS={onOpenSOS} />
-          </div>
-        </div>
-      </section>
-
-      <section className="grid gap-5 xl:grid-cols-[1fr_360px]">
-        <DeadlineBank
-          tasks={tasks}
-          selectedWeek={selectedWeek}
-          viewMode={viewMode}
-          onEdit={setEditingTask}
-          onDelete={deleteTask}
-          onPatchTask={patchTask}
-        />
-        <div className="space-y-4">
-          <div className="vip-panel">
-            <h2 className="text-lg font-semibold text-vip-ink">CSV and local data</h2>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button type="button" className="btn-secondary" onClick={handleExport}>
-                <Download size={17} aria-hidden="true" />
-                Export CSV
-              </button>
-              <button type="button" className="btn-secondary" onClick={() => fileInputRef.current?.click()}>
-                <FileUp size={17} aria-hidden="true" />
-                Import CSV
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".csv,text/csv"
-                className="hidden"
-                onChange={(event) => handleImport(event.target.files?.[0])}
-              />
+      {viewMode === "dashboard" ? (
+        <>
+          <section className="vip-panel">
+            <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
+              <div>
+                <p className="text-sm font-semibold uppercase text-vip-blue">Live demo automation</p>
+                <h2 className="mt-1 text-xl font-semibold text-vip-ink">Guided week tour</h2>
+                <p className="mt-2 text-sm leading-6 text-vip-muted">{tourStep.body}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button type="button" className="btn-primary" onClick={tourPlaying ? () => setTourPlaying(false) : startTour}>
+                  {tourPlaying ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}
+                  {tourPlaying ? "Pause" : "Start tour"}
+                </button>
+                <button type="button" className="btn-secondary" onClick={restartTour}>
+                  <RotateCcw size={17} aria-hidden="true" />
+                  Restart
+                </button>
+              </div>
             </div>
-            {importMessage && <p className="mt-3 text-sm leading-6 text-vip-muted">{importMessage}</p>}
-            <div className="mt-4 flex flex-wrap gap-2 border-t border-vip-line pt-4">
-              <button type="button" className="btn-secondary" onClick={onResetDemoData}>
-                <RotateCcw size={17} aria-hidden="true" />
-                Reset demo data
-              </button>
-              <button type="button" className="btn-danger" onClick={onClearLocalData}>
-                <Trash2 size={17} aria-hidden="true" />
-                Clear local data
-              </button>
+
+            <div className="mt-4 grid gap-2 md:grid-cols-4">
+              {guidedTourSteps.map((step, index) => {
+                const score = weekScores[step.week - 1];
+                const active = index === tourStepIndex;
+                return (
+                  <button
+                    key={step.week}
+                    type="button"
+                    className={`rounded-lg border px-3 py-3 text-left transition ${
+                      active
+                        ? "border-vip-blue bg-vip-blue text-white"
+                        : "border-vip-line bg-white text-vip-muted hover:border-vip-blue hover:text-vip-blue"
+                    }`}
+                    onClick={() => selectTourStep(index)}
+                  >
+                    <span className="block text-sm font-semibold">{step.title}</span>
+                    <span className={`mt-1 block text-xs ${active ? "text-white/85" : "text-vip-muted"}`}>
+                      Score {score.total} | {score.status}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
+
+            <div className="mt-4 rounded-lg border border-vip-line bg-vip-panel p-3 text-sm leading-6 text-vip-muted">
+              <span className="font-semibold text-vip-ink">{tourStep.title}:</span> Score {tourScore.total},{" "}
+              {tourScore.activeTaskCount} active tasks, {tourScore.status} status.
+            </div>
+          </section>
+
+          <section className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+            {taskEntry}
+            <div className="space-y-4">
+              <WeeklyHeatmap scores={weekScores} selectedWeek={selectedWeek} onSelectWeek={setSelectedWeek} />
+              <div className="grid gap-4 md:grid-cols-2">
+                <LoadScoreCard score={selectedScore} />
+                <ActionCard score={selectedScore} onOpenSOS={onOpenSOS} />
+              </div>
+            </div>
+          </section>
+
+          <section className="grid gap-5 xl:grid-cols-[1fr_360px]">
+            <DeadlineBank
+              tasks={tasks}
+              selectedWeek={selectedWeek}
+              viewMode="dashboard"
+              onEdit={setEditingTask}
+              onDelete={deleteTask}
+              onPatchTask={patchTask}
+            />
+            <div className="space-y-4">
+              {dataControls}
+              <SOSNavigator compact />
+            </div>
+          </section>
+        </>
+      ) : (
+        <section className="grid gap-5 xl:grid-cols-[1fr_460px]">
+          <DeadlineBank
+            tasks={tasks}
+            selectedWeek={selectedWeek}
+            viewMode="sheet"
+            onEdit={setEditingTask}
+            onDelete={deleteTask}
+            onPatchTask={patchTask}
+          />
+          <div className="space-y-4">
+            {taskEntry}
+            {dataControls}
           </div>
-          <SOSNavigator compact />
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }
