@@ -1,17 +1,513 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="VIP - VinUni Individualized Planner, a privacy-first academic workload planner prototype."
-    />
-    <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
-    <title>VIP - VinUni Individualized Planner</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="VIP — VinUni Individualized Planner. A privacy-first academic workload planner with a deadline bank, weekly heatmap, action cards, SOS Navigator, and template pack." />
+  <meta name="theme-color" content="#07008A" />
+  <title>VIP — VinUni Individualized Planner</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#planner-demo">Skip to planner demo</a>
+
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="VIP home">
+        <img src="assets/logo.svg" alt="" class="brand-logo" />
+        <span>VIP</span>
+      </a>
+
+      <button class="mobile-menu" id="mobileMenu" aria-expanded="false" aria-controls="navLinks" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#planner-demo">Demo</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#sos">SOS Navigator</a>
+        <a href="#templates">Templates</a>
+        <a href="#pilot">Pilot</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="icon-button" id="themeToggle" aria-label="Toggle light and dark mode">☾</button>
+        <a class="button button-ghost" href="assets/templates/vip-sheet-template.xlsx" download>Download Sheet</a>
+        <a class="button button-primary" href="#planner-demo">Try Demo</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-pad" aria-labelledby="heroTitle">
+      <div class="hero-bg hero-orb-one"></div>
+      <div class="hero-bg hero-orb-two"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Privacy-first academic wellbeing planner</p>
+          <h1 id="heroTitle">VIP — VinUni Individualized Planner</h1>
+          <p class="hero-lead">See your load early. Plan your week clearly. Ask the right person.</p>
+          <p class="hero-text">
+            VIP turns scattered syllabus deadlines into a student-owned planning dashboard: a deadline bank, weekly heatmap, workload result, action card, and SOS Navigator.
+          </p>
+          <div class="hero-actions">
+            <a href="#planner-demo" class="button button-primary button-large">Open Interactive Demo</a>
+            <a href="assets/templates/vip-sheet-template.xlsx" class="button button-soft button-large" download>Download Sheet Template</a>
+          </div>
+          <div class="trust-row" aria-label="Product highlights">
+            <span>Local-first demo</span>
+            <span>No backend required</span>
+            <span>Vercel-ready</span>
+          </div>
+        </div>
+
+        <div class="hero-demo reveal" aria-label="VIP dashboard preview">
+          <div class="dashboard-preview">
+            <div class="preview-topbar">
+              <div>
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+              </div>
+              <span class="preview-live">Live prototype</span>
+            </div>
+            <div class="preview-header">
+              <div>
+                <p>My VIP Week</p>
+                <strong id="heroWeekLabel">Loading week...</strong>
+              </div>
+              <span class="level-pill level-green" id="heroLevelPill">Green</span>
+            </div>
+            <div class="preview-heatmap" aria-hidden="true" id="heroHeatmapMini">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="preview-card action-preview">
+              <span class="preview-icon">⚡</span>
+              <div>
+                <p>Next step</p>
+                <strong id="heroActionText">Choose one task and block a focused study session.</strong>
+              </div>
+            </div>
+            <div class="preview-grid">
+              <div>
+                <span>Open deadlines</span>
+                <strong id="heroOpenCount">0</strong>
+              </div>
+              <div>
+                <span>Next due</span>
+                <strong id="heroNextDue">—</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-strip" aria-label="VIP quick facts">
+      <div class="container stats-grid">
+        <div>
+          <strong>4</strong>
+          <span>Student outputs</span>
+        </div>
+        <div>
+          <strong>3</strong>
+          <span>Workload levels</span>
+        </div>
+        <div>
+          <strong>8</strong>
+          <span>Pilot weeks</span>
+        </div>
+        <div>
+          <strong>0</strong>
+          <span>Grades collected</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="about">
+      <div class="container split-layout">
+        <div class="section-heading left reveal">
+          <p class="eyebrow">About the project</p>
+          <h2>Make hidden workload visible before it becomes hard to manage.</h2>
+          <p>
+            First-year students often receive deadlines course by course. VIP brings the total week into one place, then connects heavy weeks to practical actions and existing support routes.
+          </p>
+        </div>
+        <div class="scope-card reveal">
+          <div class="scope-row good">
+            <span>VIP is</span>
+            <strong>A privacy-first academic planning and support-navigation tool.</strong>
+          </div>
+          <div class="scope-row caution">
+            <span>VIP is not</span>
+            <strong>A diagnostic, surveillance, grading, or counseling-replacement system.</strong>
+          </div>
+          <div class="scope-row neutral">
+            <span>Main value</span>
+            <strong>Earlier visibility, clearer planning, and better support routing.</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="container privacy-grid">
+        <article class="privacy-card reveal">
+          <span class="card-icon">🔐</span>
+          <h3>Student-owned</h3>
+          <p>In this demo, data stays in the browser through localStorage. The downloadable sheet is designed for students to own and edit themselves.</p>
+        </article>
+        <article class="privacy-card reveal">
+          <span class="card-icon">🚫</span>
+          <h3>No sensitive academic records</h3>
+          <p>VIP does not ask for GPA, grades, clinical data, counseling records, or private Canvas analytics.</p>
+        </article>
+        <article class="privacy-card reveal">
+          <span class="card-icon">🤝</span>
+          <h3>Support navigation</h3>
+          <p>The tool points students toward the right support route instead of replacing instructors, advisors, PASS, or wellbeing services.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="planner-section section-pad" id="planner-demo">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Interactive sheet-style demo</p>
+          <h2>Enter deadlines, see the weekly load, and get a clear next step.</h2>
+          <p>
+            This frontend-only prototype behaves like an interactive sheet on the web. It can export your deadline bank as CSV and includes a downloadable XLSX template for Google Sheets upload.
+          </p>
+        </div>
+
+        <div class="app-toolbar reveal" role="group" aria-label="Planner tools">
+          <button class="button button-primary" id="scrollToAddTask">Add Deadline</button>
+          <button class="button button-soft" id="exportCsvBtn">Export Deadline CSV</button>
+          <a class="button button-soft" href="assets/templates/vip-sheet-template.xlsx" download>Download XLSX Template</a>
+          <button class="button button-ghost" id="resetDemoBtn">Reset Demo Data</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="kpi-card reveal">
+            <span class="kpi-label">Selected week</span>
+            <strong id="kpiWeekLevel">Green Week</strong>
+            <p id="kpiWeekSummary">Maintain routine.</p>
+          </article>
+          <article class="kpi-card reveal">
+            <span class="kpi-label">Open deadlines</span>
+            <strong id="kpiOpenDeadlines">0</strong>
+            <p id="kpiOpenSummary">No open tasks yet.</p>
+          </article>
+          <article class="kpi-card reveal">
+            <span class="kpi-label">Next due</span>
+            <strong id="kpiNextDue">—</strong>
+            <p id="kpiNextDueSummary">Add a deadline to start.</p>
+          </article>
+          <article class="kpi-card reveal">
+            <span class="kpi-label">Support route</span>
+            <strong id="kpiRoute">SOS ready</strong>
+            <p>Use the navigator when you are stuck.</p>
+          </article>
+        </div>
+
+        <div class="planner-layout">
+          <section class="panel heatmap-panel reveal" aria-labelledby="heatmapTitle">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow small">Weekly heatmap</p>
+                <h3 id="heatmapTitle">Visible load by week</h3>
+              </div>
+              <div class="legend" aria-label="Heatmap legend">
+                <span><i class="legend-dot green"></i>Green</span>
+                <span><i class="legend-dot yellow"></i>Yellow</span>
+                <span><i class="legend-dot red"></i>Red</span>
+              </div>
+            </div>
+            <div class="heatmap-scroll">
+              <div class="heatmap-table" id="weeklyHeatmap" role="table" aria-label="Weekly workload heatmap"></div>
+            </div>
+          </section>
+
+          <aside class="panel action-panel reveal" aria-labelledby="actionTitle">
+            <div class="panel-header compact">
+              <div>
+                <p class="eyebrow small">Action card</p>
+                <h3 id="actionTitle">Next 24–48 hours</h3>
+              </div>
+              <span class="level-pill level-green" id="actionLevelPill">Green</span>
+            </div>
+            <div class="meter-wrap" aria-hidden="true">
+              <div class="meter-ring" id="loadMeter"><span id="loadMeterLabel">0</span></div>
+              <div>
+                <strong id="selectedWeekLabel">This week</strong>
+                <p id="selectedWeekSignals">No deadlines in this week.</p>
+              </div>
+            </div>
+            <ol class="action-list" id="actionList"></ol>
+            <button class="button button-primary full-width" id="copyActionBtn">Copy Action Card</button>
+          </aside>
+        </div>
+
+        <section class="panel sheet-panel reveal" aria-labelledby="deadlineBankTitle">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow small">Deadline bank</p>
+              <h3 id="deadlineBankTitle">Sheet-style task entry</h3>
+            </div>
+            <span class="sheet-note">Saved locally in this browser</span>
+          </div>
+
+          <form class="task-form" id="taskForm">
+            <input type="hidden" id="taskId" />
+            <label>
+              <span>Course</span>
+              <input id="courseInput" name="course" type="text" placeholder="e.g., ECON101" required maxlength="32" />
+            </label>
+            <label>
+              <span>Task</span>
+              <input id="taskInput" name="task" type="text" placeholder="e.g., Problem Set 2" required maxlength="80" />
+            </label>
+            <label>
+              <span>Due date</span>
+              <input id="dueInput" name="due" type="date" required />
+            </label>
+            <label>
+              <span>Type</span>
+              <select id="typeInput" name="type">
+                <option>Small task</option>
+                <option>Medium task</option>
+                <option>Large task</option>
+              </select>
+            </label>
+            <label>
+              <span>Expected effort</span>
+              <input id="effortInput" name="effort" type="number" min="1" max="20" step="1" value="3" required />
+            </label>
+            <label>
+              <span>Clarity</span>
+              <select id="clarityInput" name="clarity">
+                <option>Clear</option>
+                <option>Partly clear</option>
+                <option>Unclear</option>
+              </select>
+            </label>
+            <label>
+              <span>Status</span>
+              <select id="statusInput" name="status">
+                <option>Open</option>
+                <option>In progress</option>
+                <option>Done</option>
+              </select>
+            </label>
+            <button class="button button-primary" type="submit" id="submitTaskBtn">Add Deadline</button>
+          </form>
+
+          <div class="table-tools">
+            <label class="search-box">
+              <span class="sr-only">Search deadlines</span>
+              <input id="deadlineSearch" type="search" placeholder="Search course or task..." />
+            </label>
+            <select id="statusFilter" aria-label="Filter by status">
+              <option value="all">All statuses</option>
+              <option value="Open">Open</option>
+              <option value="In progress">In progress</option>
+              <option value="Done">Done</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table class="deadline-table">
+              <thead>
+                <tr>
+                  <th>Due</th>
+                  <th>Course</th>
+                  <th>Task</th>
+                  <th>Type</th>
+                  <th>Effort</th>
+                  <th>Clarity</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="deadlineTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section-pad methodology-section" id="methodology">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Methodology</p>
+          <h2>Transparent Academic Load Score logic.</h2>
+          <p>
+            The dashboard shows the result first. This section explains the rule-based method behind Green, Yellow, and Red weeks.
+          </p>
+        </div>
+
+        <div class="method-grid">
+          <article class="method-card reveal">
+            <span class="method-number">01</span>
+            <h3>Assessment load</h3>
+            <p>Small task = +1, medium task = +2, large task = +3. Completed tasks are removed from active workload.</p>
+          </article>
+          <article class="method-card reveal">
+            <span class="method-number">02</span>
+            <h3>Deadline clustering</h3>
+            <p>Two deadlines within 48 hours add +2. Three or more deadlines within 72 hours add +3.</p>
+          </article>
+          <article class="method-card reveal">
+            <span class="method-number">03</span>
+            <h3>Expected effort</h3>
+            <p>A week with 7–11 expected hours adds +1. A week with 12 or more expected hours adds +2.</p>
+          </article>
+          <article class="method-card reveal">
+            <span class="method-number">04</span>
+            <h3>Task clarity risk</h3>
+            <p>Each unclear task adds +1, capped at +2 per week, so uncertainty stays visible but not exaggerated.</p>
+          </article>
+        </div>
+
+        <div class="formula-card reveal">
+          <div>
+            <p class="eyebrow small">Formula</p>
+            <h3>Academic Load Score = Assessment Load + Deadline Clustering + Expected Effort + Task Clarity Risk</h3>
+            <p>Green = 0–4, Yellow = 5–8, Red = 9+. The score is a planning signal, not a diagnosis, ranking, or prediction.</p>
+          </div>
+          <div class="score-legend-large" aria-label="Score interpretation">
+            <div><strong>0–4</strong><span>Green · Maintain routine</span></div>
+            <div><strong>5–8</strong><span>Yellow · Plan early</span></div>
+            <div><strong>9+</strong><span>Red · Act within 24–48 hours</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad sos-section" id="sos">
+      <div class="container split-layout reverse">
+        <div class="section-heading left reveal">
+          <p class="eyebrow">Academic SOS Navigator</p>
+          <h2>Move from “I am stuck” to the right first action.</h2>
+          <p>
+            Choose a common first-year academic situation. VIP gives a practical first step and a suggested support route.
+          </p>
+        </div>
+        <div class="sos-card reveal">
+          <div class="sos-question">
+            <span>🧭</span>
+            <strong>I am stuck because...</strong>
+          </div>
+          <div class="sos-options" id="sosOptions"></div>
+          <div class="sos-result" id="sosResult" aria-live="polite"></div>
+          <button class="button button-primary full-width" id="copySosBtn">Copy SOS Route</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad templates-section" id="templates">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Template pack</p>
+          <h2>Reduce the effort needed to ask for help.</h2>
+          <p>
+            Copy ready-to-use scripts for clarification, office hours, 48-hour triage, and priority planning.
+          </p>
+        </div>
+
+        <div class="template-layout reveal">
+          <div class="template-tabs" id="templateTabs" role="tablist" aria-label="Template pack tabs"></div>
+          <article class="template-card">
+            <div class="panel-header compact">
+              <div>
+                <p class="eyebrow small">Selected template</p>
+                <h3 id="templateTitle">Clarification Email</h3>
+              </div>
+              <div class="template-actions">
+                <button class="button button-soft" id="copyTemplateBtn">Copy</button>
+                <button class="button button-ghost" id="downloadTemplatePackBtn">Download Pack</button>
+              </div>
+            </div>
+            <pre id="templateBody"></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad pilot-section" id="pilot">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Pilot timeline</p>
+          <h2>An eight-week flow from setup to impact report.</h2>
+          <p>
+            The pilot starts with recruitment and sheet setup, moves through real weekly use and SOS routing, then ends with route-clarity data and scale-up recommendations.
+          </p>
+        </div>
+
+        <div class="timeline reveal" id="pilotTimeline" aria-label="Eight-week pilot timeline"></div>
+
+        <div class="outcome-grid">
+          <article class="outcome-card reveal">
+            <span>👁️</span>
+            <h3>Workload visibility</h3>
+            <p>Students can identify heavy academic weeks earlier.</p>
+          </article>
+          <article class="outcome-card reveal">
+            <span>🧭</span>
+            <h3>Support route clarity</h3>
+            <p>Students know who to ask when they get stuck academically.</p>
+          </article>
+          <article class="outcome-card reveal">
+            <span>🎓</span>
+            <h3>Academic control</h3>
+            <p>Students feel more in control of their weekly study plan.</p>
+          </article>
+          <article class="outcome-card reveal">
+            <span>⚡</span>
+            <h3>Action readiness</h3>
+            <p>Students know what to do in the next 48 hours when overloaded.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="launch-band section-pad">
+      <div class="container launch-card reveal">
+        <div>
+          <p class="eyebrow">Ready to deploy</p>
+          <h2>Static frontend, localStorage demo, Vercel configuration included.</h2>
+          <p>Open <code>index.html</code> directly, run it through Vite locally, or deploy the folder on Vercel.</p>
+        </div>
+        <div class="launch-actions">
+          <a class="button button-primary button-large" href="#planner-demo">Try the Demo</a>
+          <a class="button button-soft button-large" href="assets/templates/vip-sheet-template.xlsx" download>Get Sheet Template</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand footer-brand" href="#top" aria-label="VIP home">
+          <img src="assets/logo.svg" alt="" class="brand-logo" />
+          <span>VIP</span>
+        </a>
+        <p>VinUni Individualized Planner — a student-owned academic planning and support-navigation prototype.</p>
+      </div>
+      <div>
+        <strong>Prototype note</strong>
+        <p>This version is frontend-only. Real Google Sheets live sync would require Google API credentials or an Apps Script backend.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
 </html>

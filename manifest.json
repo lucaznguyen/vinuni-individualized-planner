@@ -1,0 +1,16 @@
+{
+  "name": "VIP - VinUni Individualized Planner",
+  "short_name": "VIP Planner",
+  "description": "A privacy-first academic workload planner prototype for first-year students.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#EEF3FF",
+  "theme_color": "#07008A",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

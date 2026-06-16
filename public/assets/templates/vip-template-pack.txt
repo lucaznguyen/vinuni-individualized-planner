@@ -1,0 +1,38 @@
+VIP Template Pack
+=================
+
+1. Clarification Email
+Subject: Clarification on [assignment / task name]
+
+Dear [TA / Instructor Name],
+
+I am working on [assignment / task name] for [course code]. I have checked the syllabus and the assignment instructions, but I am still unsure about one point:
+
+My question: [write one specific question]
+
+What I have tried so far:
+- [Step 1 you already tried]
+- [Step 2 you already tried]
+
+Could you please clarify what is expected for this part?
+
+Thank you,
+[Your name]
+
+---
+
+2. Office-Hour Script
+"I am working on [task]. I tried [your attempt]. I got stuck at [specific blocker]. Could you help me understand the next step?"
+
+---
+
+3. 48-Hour Planner
+List the next 3 deadlines, choose the highest-risk task, block two focused sessions, ask one clarification question if needed, and protect one buffer slot.
+
+---
+
+4. Priority Matrix
+Urgent + Important: do first.
+Important + Not Urgent: schedule now.
+Urgent + Less Important: batch quickly.
+Not Urgent + Less Important: save for later.
